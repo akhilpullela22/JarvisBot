@@ -1,1 +1,1 @@
-"# PenguinBot-JDARewrite" 
+"# PenguinBot-JDA" 
