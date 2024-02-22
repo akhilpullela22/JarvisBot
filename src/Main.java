@@ -20,20 +20,27 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 public class Main extends ListenerAdapter {
 
+    private ArrayList<TrackUser> CordUsers = new ArrayList<>();
+
     public static void main(String[] args){
-        JDABuilder builder = JDABuilder.createDefault("NTA0MzUwMTc2NjMxMDYyNTI5.GlxmWF.Z8NU_UKITm9uEnCU-8n7dL1QwU_jVwIAh7aGXc");
+        
+        
+        JDABuilder builder = JDABuilder.createDefault("token");
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS);
         builder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
         builder.setBulkDeleteSplittingEnabled(false);
         builder.setActivity(Activity.watching("the server"));
         builder.addEventListeners(new Main());
         builder.build();
+        
+        
     }
 
     @Override
@@ -41,6 +48,7 @@ public class Main extends ListenerAdapter {
         System.out.println("Received a message: " + event.getMessage().getContentRaw());
 
         String message = event.getMessage().getContentRaw();
+        
 
         if (message.startsWith("!kickall ")) {
             String roleName = message.substring(9);  // get the role name from the message
@@ -59,12 +67,75 @@ public class Main extends ListenerAdapter {
                 }
             });
         }
-        if (message.startsWith("!ult ")){
-            String task = message.substring(5);
-            if (task == "adduser"){
-                
+        if (message.startsWith("!ult")){
+            String[] parts = message.split(" ", 3);
+            String task = parts[1];
+            String[] nameAndUlt = parts[2].split(" ", 2);
+            String name = nameAndUlt[0];
+            String ult = "";
+            if (nameAndUlt.length > 1) {
+                ult = nameAndUlt[1];
+}
+            if (name.isBlank()){
+                event.getChannel().sendMessage("No user given");
+            }
+            else{
+                if (task.contains("adduser")){
+                CordUsers.add(new TrackUser(name.strip()));
+            }
+            if (task.contains("addult")){
+                if (ult.isBlank()){
+                    event.getChannel().sendMessage("No ult given");
+                }
+                else{
+                    for(TrackUser user : CordUsers){
+                        if (user.getName().equals(name)){
+                            user.addUlt(ult);
+                        }
+                    }
+
+                }
+            }
+            if (task.contains("addpoint")){
+                if (ult.isBlank()){
+                    event.getChannel().sendMessage("No ult given");
+                }
+                else{
+                    for(TrackUser user : CordUsers){
+                        if (user.getName().equals(name)){
+                            user.addPoint(ult);
+                        }
+                    }
+
+                }
+
+            }
+            if (task.contains("removepoint")){
+                if (ult.isBlank()){
+                    event.getChannel().sendMessage("No ult given");
+                }
+                else{
+                    for(TrackUser user : CordUsers){
+                        if (user.getName().equals(name)){
+                            user.removePoint(ult);
+                        }
+                    }
+
+                }
+
             }
         }
-    }
+        for (TrackUser user : CordUsers){
+            System.out.println(user.getName());
+            System.out.println(user.getUlts());
+        }
+        
+            
+            
+            
+        }
+
+    
+}
 }
 
