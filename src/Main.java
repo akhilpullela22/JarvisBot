@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class Main extends ListenerAdapter {
 
     public static void main(String[] args){
-        JDABuilder builder = JDABuilder.createDefault("token");
+        JDABuilder builder = JDABuilder.createDefault("NTA0MzUwMTc2NjMxMDYyNTI5.GlxmWF.Z8NU_UKITm9uEnCU-8n7dL1QwU_jVwIAh7aGXc");
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS);
         builder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
         builder.setBulkDeleteSplittingEnabled(false);
@@ -58,6 +58,12 @@ public class Main extends ListenerAdapter {
                     });
                 }
             });
+        }
+        if (message.startsWith("!ult ")){
+            String task = message.substring(5);
+            if (task == "adduser"){
+                
+            }
         }
     }
 }
