@@ -32,7 +32,7 @@ public class Main extends ListenerAdapter {
     public static void main(String[] args){
         
         
-        JDABuilder builder = JDABuilder.createDefault("NTA0MzUwMTc2NjMxMDYyNTI5.GKL0Cx.khAi8inXxp3qE6tZUjA6zf1ec5jNUjEjlzkkeU");
+        JDABuilder builder = JDABuilder.createDefault("token");
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS);
         builder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
         builder.setBulkDeleteSplittingEnabled(false);
